@@ -8,6 +8,8 @@ import {
   Copy,
   ExternalLink,
   History,
+  ScanEye,
+
   Loader2,
   Pencil,
   Plus,
