@@ -161,7 +161,7 @@ function LibraryPage() {
   return (
     <div className="min-h-screen bg-[#f7f8fb]">
       <header className="sticky top-0 z-10 border-b border-black/5 bg-white/85 backdrop-blur">
-        <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-6 py-4 sm:flex sm:justify-between">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <Link
               to="/app"
@@ -178,34 +178,40 @@ function LibraryPage() {
               </span>
             </Link>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
             <Link
               to="/accessibility"
-              className="inline-flex items-center gap-2 rounded-lg border border-black/8 bg-white px-3.5 py-2.5 text-sm font-medium text-[#0b1220]/75 transition-colors duration-150 hover:bg-[#f4f4f5] hover:text-[#0b1220]"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-black/8 bg-white px-3 text-sm font-medium text-[#0b1220]/75 transition-colors duration-150 hover:bg-[#f4f4f5] hover:text-[#0b1220] sm:px-3.5"
+              aria-label="Accessibility review"
+              title="Accessibility review"
             >
               <ScanEye className="h-4 w-4" />
-              Accessibility
+              <span className="hidden md:inline">Accessibility</span>
             </Link>
             <Link
               to="/activity"
-              className="inline-flex items-center gap-2 rounded-lg border border-black/8 bg-white px-3.5 py-2.5 text-sm font-medium text-[#0b1220]/75 transition-colors duration-150 hover:bg-[#f4f4f5] hover:text-[#0b1220]"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-black/8 bg-white px-3 text-sm font-medium text-[#0b1220]/75 transition-colors duration-150 hover:bg-[#f4f4f5] hover:text-[#0b1220] sm:px-3.5"
+              aria-label="Activity history"
+              title="Activity history"
             >
               <History className="h-4 w-4" />
-              Activity
+              <span className="hidden md:inline">Activity</span>
             </Link>
 
             <Link
               to="/app"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#2b6bff] px-4 py-2.5 text-sm font-medium text-white transition-colors duration-150 hover:bg-[#1f57df]"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#2b6bff] px-3 text-sm font-medium text-white transition-colors duration-150 hover:bg-[#1f57df] sm:px-4"
+              aria-label="Create a new design"
+              title="Create a new design"
             >
               <Plus className="h-4 w-4" />
-              New design
+              <span className="hidden sm:inline">New design</span>
             </Link>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6 py-8">
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
         <div className="relative mb-6 max-w-sm">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#0b1220]/35" />
           <input
