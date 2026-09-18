@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      design_activity: {
+        Row: {
+          action: string
+          created_at: string
+          design_id: string | null
+          design_name: string
+          detail: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          design_id?: string | null
+          design_name?: string
+          detail?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          design_id?: string | null
+          design_name?: string
+          detail?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "design_activity_design_id_fkey"
+            columns: ["design_id"]
+            isOneToOne: false
+            referencedRelation: "designs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       designs: {
         Row: {
           created_at: string

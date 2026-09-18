@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
 import { z } from "zod";
+import { recordActivity } from "./activity.functions";
 
 export type SavedDesignSummary = {
   id: string;
@@ -87,6 +88,12 @@ export const saveMyDesign = createServerFn({ method: "POST" })
         .select(SUMMARY_COLUMNS)
         .single();
       if (error) throw new Error(error.message);
+      await recordActivity(context.supabase, context.userId, {
+        designId: row.id,
+        designName: row.name,
+        action: "updated",
+        detail: `${row.screen_count} screen${row.screen_count === 1 ? "" : "s"}`,
+      });
       return toSummary(row);
     }
 
@@ -96,6 +103,12 @@ export const saveMyDesign = createServerFn({ method: "POST" })
       .select(SUMMARY_COLUMNS)
       .single();
     if (error) throw new Error(error.message);
+    await recordActivity(context.supabase, context.userId, {
+      designId: row.id,
+      designName: row.name,
+      action: "created",
+      detail: `${row.screen_count} screen${row.screen_count === 1 ? "" : "s"}`,
+    });
     return toSummary(row);
   });
 
@@ -135,12 +148,24 @@ export const renameMyDesign = createServerFn({ method: "POST" })
     z.object({ id: z.string().uuid(), name: z.string().trim().min(1).max(120) }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    const { data: previous } = await context.supabase
+      .from("designs")
+      .select("name")
+      .eq("id", data.id)
+      .eq("user_id", context.userId)
+      .maybeSingle();
     const { error } = await context.supabase
       .from("designs")
       .update({ name: data.name })
       .eq("id", data.id)
       .eq("user_id", context.userId);
     if (error) throw new Error(error.message);
+    await recordActivity(context.supabase, context.userId, {
+      designId: data.id,
+      designName: data.name,
+      action: "renamed",
+      detail: previous?.name ? `Previously "${previous.name}"` : null,
+    });
     return { ok: true };
   });
 
@@ -148,12 +173,23 @@ export const deleteMyDesign = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
+    const { data: previous } = await context.supabase
+      .from("designs")
+      .select("name")
+      .eq("id", data.id)
+      .eq("user_id", context.userId)
+      .maybeSingle();
     const { error } = await context.supabase
       .from("designs")
       .delete()
       .eq("id", data.id)
       .eq("user_id", context.userId);
     if (error) throw new Error(error.message);
+    await recordActivity(context.supabase, context.userId, {
+      designId: null,
+      designName: previous?.name ?? "Untitled design",
+      action: "deleted",
+    });
     return { ok: true };
   });
 
@@ -183,6 +219,12 @@ export const duplicateMyDesign = createServerFn({ method: "POST" })
       .select(SUMMARY_COLUMNS)
       .single();
     if (insertError) throw new Error(insertError.message);
+    await recordActivity(context.supabase, context.userId, {
+      designId: copy.id,
+      designName: copy.name,
+      action: "duplicated",
+      detail: `Copied from "${row.name}"`,
+    });
     return toSummary(copy);
   });
 
@@ -201,6 +243,12 @@ export const setMyDesignSharing = createServerFn({ method: "POST" })
       .select(SUMMARY_COLUMNS)
       .single();
     if (error) throw new Error(error.message);
+    await recordActivity(context.supabase, context.userId, {
+      designId: row.id,
+      designName: row.name,
+      action: data.isPublic ? "shared" : "unshared",
+      detail: data.isPublic ? "Public share link enabled" : "Public share link disabled",
+    });
     return toSummary(row);
   });
 
