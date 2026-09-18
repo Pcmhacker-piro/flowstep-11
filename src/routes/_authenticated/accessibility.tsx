@@ -93,7 +93,7 @@ function AccessibilityPage() {
   return (
     <div className="min-h-screen bg-[#f7f8fb]">
       <header className="sticky top-0 z-10 border-b border-black/5 bg-white/85 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center gap-3 px-6 py-4">
+        <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-4 sm:px-6">
           <Link
             to="/library"
             className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[#0b1220]/60 transition-colors duration-150 hover:bg-[#f4f4f5] hover:text-[#0b1220]"
@@ -109,8 +109,8 @@ function AccessibilityPage() {
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-5xl gap-6 px-6 py-8 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
-        <section className="rounded-xl bg-white p-5 shadow-sm">
+      <main className="mx-auto grid w-full max-w-5xl gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+        <section className="min-w-0 rounded-xl bg-white p-4 shadow-sm sm:p-5">
           <div className="flex items-center gap-2">
             <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[#2b6bff]/10 text-[#2b6bff]">
               <ScanEye className="h-4 w-4" />
@@ -130,7 +130,7 @@ function AccessibilityPage() {
               const file = event.dataTransfer.files?.[0];
               if (file) loadFile(file);
             }}
-            className={`mt-4 rounded-xl border-2 border-dashed p-4 transition-colors duration-150 ${
+            className={`mt-4 min-w-0 rounded-xl border-2 border-dashed p-3 transition-colors duration-150 sm:p-4 ${
               dragging ? "border-[#2b6bff] bg-[#2b6bff]/5" : "border-black/10 bg-[#f7f8fb]"
             }`}
           >
@@ -139,10 +139,10 @@ function AccessibilityPage() {
                 <img
                   src={image}
                   alt={fileName ?? "Uploaded screenshot"}
-                  className="max-h-80 w-full rounded-lg border border-black/5 bg-white object-contain"
+                  className="max-h-[60vh] w-full rounded-lg border border-black/5 bg-white object-contain"
                 />
-                <div className="mt-3 flex items-center justify-between gap-2">
-                  <span className="truncate text-xs text-[#0b1220]/55">{fileName}</span>
+                <div className="mt-3 flex min-w-0 items-center justify-between gap-2">
+                  <span className="min-w-0 truncate text-xs text-[#0b1220]/55">{fileName}</span>
                   <button
                     type="button"
                     onClick={reset}
@@ -204,16 +204,16 @@ function AccessibilityPage() {
           </button>
         </section>
 
-        <section>
+        <section className="min-w-0">
           {mutation.isPending ? (
-            <div className="flex items-center gap-2 rounded-xl bg-white p-6 text-sm text-[#0b1220]/60 shadow-sm">
+            <div className="flex min-w-0 items-start gap-2 rounded-xl bg-white p-5 text-sm text-[#0b1220]/60 shadow-sm sm:items-center sm:p-6">
               <Loader2 className="h-4 w-4 animate-spin" />
               Looking at contrast, sizes, hierarchy and legibility…
             </div>
           ) : report ? (
             <div className="space-y-4">
-              <div className="rounded-xl bg-white p-5 shadow-sm">
-                <div className="flex items-baseline gap-3">
+              <div className="min-w-0 rounded-xl bg-white p-4 shadow-sm sm:p-5">
+                <div className="flex flex-wrap items-baseline gap-3">
                   <span className={`text-3xl font-semibold tracking-tight ${scoreTone(report.score)}`}>
                     {report.score}
                   </span>
@@ -221,13 +221,13 @@ function AccessibilityPage() {
                     Accessibility score
                   </span>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-[#0b1220]/80">{report.summary}</p>
+                <p className="mt-3 break-words text-sm leading-relaxed text-[#0b1220]/80">{report.summary}</p>
               </div>
 
               {report.issues.map((issue, index) => {
                 const meta = SEVERITY[issue.severity];
                 return (
-                  <article key={`${issue.title}-${index}`} className="rounded-xl bg-white p-5 shadow-sm">
+                  <article key={`${issue.title}-${index}`} className="min-w-0 rounded-xl bg-white p-4 shadow-sm sm:p-5">
                     <div className="flex flex-wrap items-center gap-2">
                       <span
                         className={`rounded-full px-2.5 py-1 text-xs font-medium ${meta.tone}`}
@@ -238,11 +238,11 @@ function AccessibilityPage() {
                         <span className="text-xs text-[#0b1220]/45">WCAG {issue.guideline}</span>
                       ) : null}
                     </div>
-                    <h3 className="mt-2.5 text-sm font-semibold text-[#0b1220]">{issue.title}</h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-[#0b1220]/70">
+                    <h3 className="mt-2.5 break-words text-sm font-semibold text-[#0b1220]">{issue.title}</h3>
+                    <p className="mt-1.5 break-words text-sm leading-relaxed text-[#0b1220]/70">
                       {issue.problem}
                     </p>
-                    <p className="mt-3 rounded-lg bg-[#f7f8fb] p-3.5 text-sm leading-relaxed text-[#0b1220]/85">
+                    <p className="mt-3 break-words rounded-lg bg-[#f7f8fb] p-3.5 text-sm leading-relaxed text-[#0b1220]/85">
                       <span className="font-medium text-[#0b1220]">Fix: </span>
                       {issue.fix}
                     </p>
@@ -251,7 +251,7 @@ function AccessibilityPage() {
               })}
             </div>
           ) : (
-            <div className="rounded-xl bg-white p-10 text-center shadow-sm">
+            <div className="rounded-xl bg-white px-5 py-10 text-center shadow-sm sm:p-10">
               <p className="text-base font-medium text-[#0b1220]">No review yet</p>
               <p className="mx-auto mt-2 max-w-sm text-sm text-[#0b1220]/55">
                 Upload a screenshot of any screen and you'll get prioritised accessibility
