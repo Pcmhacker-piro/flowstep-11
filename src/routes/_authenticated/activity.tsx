@@ -286,3 +286,83 @@ function ActivityPage() {
     </div>
   );
 }
+
+const SUGGESTIONS = [
+  "What did I work on this week?",
+  "Which design did I change most often?",
+  "Summarize everything I deleted recently.",
+];
+
+function ActivityAsk() {
+  const ask = useServerFn(askActivity);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState<string | null>(null);
+
+  const mutation = useMutation({
+    mutationFn: (q: string) => ask({ data: { question: q } }),
+    onSuccess: (result) => setAnswer(result.answer),
+    onError: (err: unknown) =>
+      toast.error(err instanceof Error ? err.message : "Couldn't answer that right now"),
+  });
+
+  const submit = (value: string) => {
+    const q = value.trim();
+    if (q.length < 2 || mutation.isPending) return;
+    setQuestion(q);
+    setAnswer(null);
+    mutation.mutate(q);
+  };
+
+  return (
+    <section className="mb-6 rounded-xl bg-white p-5 shadow-sm">
+      <div className="flex items-center gap-2">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[#2b6bff]/10 text-[#2b6bff]">
+          <Sparkle className="h-4 w-4" />
+        </span>
+        <h2 className="text-sm font-semibold text-[#0b1220]">Ask about your activity</h2>
+      </div>
+      <form
+        className="mt-3 flex flex-col gap-2 sm:flex-row"
+        onSubmit={(event) => {
+          event.preventDefault();
+          submit(question);
+        }}
+      >
+        <input
+          value={question}
+          onChange={(event) => setQuestion(event.target.value)}
+          placeholder="e.g. What changed on my pricing page last week?"
+          className="min-w-0 flex-1 rounded-lg border border-black/8 bg-[#f7f8fb] px-3.5 py-2.5 text-sm text-[#0b1220] outline-none transition-colors duration-150 focus:border-[#2b6bff]/45 focus:bg-white"
+        />
+        <button
+          type="submit"
+          disabled={mutation.isPending || question.trim().length < 2}
+          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#2b6bff] px-4 py-2.5 text-sm font-medium text-white transition-colors duration-150 hover:bg-[#1f57df] disabled:cursor-not-allowed disabled:opacity-45"
+        >
+          {mutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          Ask
+        </button>
+      </form>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {SUGGESTIONS.map((item) => (
+          <button
+            key={item}
+            type="button"
+            onClick={() => submit(item)}
+            disabled={mutation.isPending}
+            className="rounded-full bg-[#f4f4f5] px-3 py-1.5 text-xs font-medium text-[#0b1220]/65 transition-colors duration-150 hover:text-[#0b1220] disabled:opacity-45"
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+      {mutation.isPending ? (
+        <p className="mt-4 text-sm text-[#0b1220]/55">Reading your history…</p>
+      ) : answer ? (
+        <p className="mt-4 whitespace-pre-wrap rounded-lg bg-[#f7f8fb] p-4 text-sm leading-relaxed text-[#0b1220]/85">
+          {answer}
+        </p>
+      ) : null}
+    </section>
+  );
+}
