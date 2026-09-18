@@ -8,6 +8,8 @@ import {
   Copy,
   ExternalLink,
   History,
+  ScanEye,
+
   Loader2,
   Pencil,
   Plus,
@@ -178,12 +180,20 @@ function LibraryPage() {
           </div>
           <div className="flex shrink-0 items-center gap-2">
             <Link
+              to="/accessibility"
+              className="inline-flex items-center gap-2 rounded-lg border border-black/8 bg-white px-3.5 py-2.5 text-sm font-medium text-[#0b1220]/75 transition-colors duration-150 hover:bg-[#f4f4f5] hover:text-[#0b1220]"
+            >
+              <ScanEye className="h-4 w-4" />
+              Accessibility
+            </Link>
+            <Link
               to="/activity"
               className="inline-flex items-center gap-2 rounded-lg border border-black/8 bg-white px-3.5 py-2.5 text-sm font-medium text-[#0b1220]/75 transition-colors duration-150 hover:bg-[#f4f4f5] hover:text-[#0b1220]"
             >
               <History className="h-4 w-4" />
               Activity
             </Link>
+
             <Link
               to="/app"
               className="inline-flex items-center gap-2 rounded-lg bg-[#2b6bff] px-4 py-2.5 text-sm font-medium text-white transition-colors duration-150 hover:bg-[#1f57df]"

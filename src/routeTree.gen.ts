@@ -19,6 +19,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AuthenticatedAccessibilityRouteImport } from './routes/_authenticated/accessibility'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedActivityRouteImport } from './routes/_authenticated/activity'
 import { Route as AuthenticatedApiKeysRouteImport } from './routes/_authenticated/api-keys'
@@ -80,6 +81,12 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     id: '/.well-known/oauth-protected-resource',
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedAccessibilityRoute =
+  AuthenticatedAccessibilityRouteImport.update({
+    id: '/accessibility',
+    path: '/accessibility',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
   id: '/account',
@@ -143,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/accessibility': typeof AuthenticatedAccessibilityRoute
   '/account': typeof AuthenticatedAccountRoute
   '/activity': typeof AuthenticatedActivityRoute
   '/api-keys': typeof AuthenticatedApiKeysRoute
@@ -164,6 +172,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/accessibility': typeof AuthenticatedAccessibilityRoute
   '/account': typeof AuthenticatedAccountRoute
   '/activity': typeof AuthenticatedActivityRoute
   '/api-keys': typeof AuthenticatedApiKeysRoute
@@ -187,6 +196,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/_authenticated/accessibility': typeof AuthenticatedAccessibilityRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/activity': typeof AuthenticatedActivityRoute
   '/_authenticated/api-keys': typeof AuthenticatedApiKeysRoute
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/accessibility'
     | '/account'
     | '/activity'
     | '/api-keys'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/accessibility'
     | '/account'
     | '/activity'
     | '/api-keys'
@@ -253,6 +265,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/_authenticated/accessibility'
     | '/_authenticated/account'
     | '/_authenticated/activity'
     | '/_authenticated/api-keys'
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/accessibility': {
+      id: '/_authenticated/accessibility'
+      path: '/accessibility'
+      fullPath: '/accessibility'
+      preLoaderRoute: typeof AuthenticatedAccessibilityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/account': {
       id: '/_authenticated/account'
       path: '/account'
@@ -430,6 +450,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAccessibilityRoute: typeof AuthenticatedAccessibilityRoute
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedActivityRoute: typeof AuthenticatedActivityRoute
   AuthenticatedApiKeysRoute: typeof AuthenticatedApiKeysRoute
@@ -437,6 +458,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAccessibilityRoute: AuthenticatedAccessibilityRoute,
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedActivityRoute: AuthenticatedActivityRoute,
   AuthenticatedApiKeysRoute: AuthenticatedApiKeysRoute,
