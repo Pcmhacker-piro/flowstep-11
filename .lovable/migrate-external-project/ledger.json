@@ -1,0 +1,60 @@
+{
+  "capabilities": [
+    {
+      "capability": "code",
+      "source": "github:Pcmhacker-piro/flowstep-9",
+      "outcome": "migrate",
+      "status": "implemented",
+      "next_action": "Verify preview loads and auth routes work"
+    },
+    {
+      "capability": "schema",
+      "source": "drizzle/migrations/0000_restore_flowstep_schema.sql, 0001_restore_flowstep_schema.sql, 0002_create_provider_usage_events.sql",
+      "outcome": "migrate",
+      "status": "implemented",
+      "next_action": "Schema applied as migrations 0003 and 0004; Drizzle meta files remain in drizzle/migrations/"
+    },
+    {
+      "capability": "records",
+      "source": "none supplied",
+      "outcome": "pending",
+      "status": "pending",
+      "next_action": "Ask user for CSV/JSON exports of application tables if existing data should be preserved"
+    },
+    {
+      "capability": "auth",
+      "source": "@lovable.dev/cloud-auth-js + @supabase/supabase-js",
+      "outcome": "replace",
+      "status": "implemented",
+      "next_action": "Lovable Cloud enabled; email/password and Google sign-in activated; USER_API_KEY_SECRET generated"
+    },
+    {
+      "capability": "authorization",
+      "source": "RLS policies in migration files",
+      "outcome": "preserve",
+      "status": "implemented",
+      "next_action": "RLS policies, triggers, and helper functions applied to profiles, user_api_keys, and provider_usage_events"
+    },
+    {
+      "capability": "external_providers",
+      "source": "user-provided AI provider API keys (openai, gemini, openrouter, anthropic, nvidia, groq)",
+      "outcome": "preserve",
+      "status": "implemented",
+      "next_action": "USER_API_KEY_SECRET generated; users can add keys in /account/api-keys once signed in"
+    },
+    {
+      "capability": "public_endpoints",
+      "source": "src/routes/api/public/mcp-health.ts, src/routes/mcp.ts, src/routes/[.mcp]/*",
+      "outcome": "preserve",
+      "status": "implemented",
+      "next_action": "OAuth server not configured yet; activate via supabase--configure_oauth_server if external MCP access is needed"
+    },
+    {
+      "capability": "secrets",
+      "source": "Lovable Cloud + USER_API_KEY_SECRET",
+      "outcome": "preserve",
+      "status": "implemented",
+      "next_action": "USER_API_KEY_SECRET generated and injected; Cloud env vars auto-managed"
+    }
+  ]
+}
