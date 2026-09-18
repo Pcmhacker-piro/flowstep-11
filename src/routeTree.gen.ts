@@ -20,6 +20,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
+import { Route as AuthenticatedActivityRouteImport } from './routes/_authenticated/activity'
 import { Route as AuthenticatedApiKeysRouteImport } from './routes/_authenticated/api-keys'
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
 import { Route as ApiEditPartRouteImport } from './routes/api/edit-part'
@@ -85,6 +86,11 @@ const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedActivityRoute = AuthenticatedActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedApiKeysRoute = AuthenticatedApiKeysRouteImport.update({
   id: '/api-keys',
   path: '/api-keys',
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/account': typeof AuthenticatedAccountRoute
+  '/activity': typeof AuthenticatedActivityRoute
   '/api-keys': typeof AuthenticatedApiKeysRoute
   '/library': typeof AuthenticatedLibraryRoute
   '/api/edit-part': typeof ApiEditPartRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/account': typeof AuthenticatedAccountRoute
+  '/activity': typeof AuthenticatedActivityRoute
   '/api-keys': typeof AuthenticatedApiKeysRoute
   '/library': typeof AuthenticatedLibraryRoute
   '/api/edit-part': typeof ApiEditPartRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
+  '/_authenticated/activity': typeof AuthenticatedActivityRoute
   '/_authenticated/api-keys': typeof AuthenticatedApiKeysRoute
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
   '/api/edit-part': typeof ApiEditPartRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/account'
+    | '/activity'
     | '/api-keys'
     | '/library'
     | '/api/edit-part'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/account'
+    | '/activity'
     | '/api-keys'
     | '/library'
     | '/api/edit-part'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_authenticated/account'
+    | '/_authenticated/activity'
     | '/_authenticated/api-keys'
     | '/_authenticated/library'
     | '/api/edit-part'
@@ -351,6 +363,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/activity': {
+      id: '/_authenticated/activity'
+      path: '/activity'
+      fullPath: '/activity'
+      preLoaderRoute: typeof AuthenticatedActivityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/api-keys': {
       id: '/_authenticated/api-keys'
       path: '/api-keys'
@@ -412,12 +431,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedActivityRoute: typeof AuthenticatedActivityRoute
   AuthenticatedApiKeysRoute: typeof AuthenticatedApiKeysRoute
   AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedActivityRoute: AuthenticatedActivityRoute,
   AuthenticatedApiKeysRoute: AuthenticatedApiKeysRoute,
   AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
 }
