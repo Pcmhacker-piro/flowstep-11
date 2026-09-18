@@ -190,6 +190,8 @@ function ActivityPage() {
           ))}
         </div>
 
+        <ActivityAsk />
+
         {isLoading ? (
           <div className="flex items-center gap-2 rounded-xl bg-white p-6 text-sm text-[#0b1220]/60 shadow-sm">
             <Loader2 className="h-4 w-4 animate-spin" />
