@@ -13,8 +13,10 @@ import {
   Pencil,
   RefreshCw,
   Save,
+  Sparkle,
   Trash2,
 } from "lucide-react";
+import { askActivity } from "@/lib/activityAssistant.functions";
 import {
   clearMyActivity,
   listMyActivity,
